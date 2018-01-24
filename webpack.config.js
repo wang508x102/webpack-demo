@@ -1,12 +1,16 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 //const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry:{
- 	index: './src/index.js'
+ 	main: './src/index.js',
+  vendor: [
+    'lodash'
+  ]
 },
  // devtool: 'source-map',
  // devServer: {
@@ -15,19 +19,21 @@ module.exports = {
  // },
   plugins: [
    // new UglifyJSPlugin()
+     new CleanWebpackPlugin(['dist']),
      new HtmlWebpackPlugin({
-       title: 'Code Splitting'
+       title: 'Caching'
+     }),
+     new webpack.optimize.CommonsChunkPlugin({
+       name: 'vendor'
      })
-     // new webpack.optimize.CommonsChunkPlugin({
-     //   name: 'common'
-     // })
-    // new CleanWebpackPlugin(['dist']),
+
   	// new webpack.NamedModulesPlugin(),
   	// new webpack.HotModuleReplacementPlugin()
   ],
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    // filename: '[name].bundle.js',
+    filename: '[name].[chunkhash].js',
+    // chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
     //publicPath: '/'
   },

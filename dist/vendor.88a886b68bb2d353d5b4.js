@@ -1,6 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	var parentJsonpFunction = window["webpackJsonp"];
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [], result;
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules, executeModules);
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/ 		if(executeModules) {
+/******/ 			for(i=0; i < executeModules.length; i++) {
+/******/ 				result = __webpack_require__(__webpack_require__.s = executeModules[i]);
+/******/ 			}
+/******/ 		}
+/******/ 		return result;
+/******/ 	};
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// objects to store loaded and loading chunks
+/******/ 	var installedChunks = {
+/******/ 		2: 0
+/******/ 	};
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +61,55 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData === 0) {
+/******/ 			return new Promise(function(resolve) { resolve(); });
+/******/ 		}
+/******/
+/******/ 		// a Promise means "currently loading".
+/******/ 		if(installedChunkData) {
+/******/ 			return installedChunkData[2];
+/******/ 		}
+/******/
+/******/ 		// setup Promise in chunk cache
+/******/ 		var promise = new Promise(function(resolve, reject) {
+/******/ 			installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 		});
+/******/ 		installedChunkData[2] = promise;
+/******/
+/******/ 		// start chunk loading
+/******/ 		var head = document.getElementsByTagName('head')[0];
+/******/ 		var script = document.createElement('script');
+/******/ 		script.type = 'text/javascript';
+/******/ 		script.charset = 'utf-8';
+/******/ 		script.async = true;
+/******/ 		script.timeout = 120000;
+/******/
+/******/ 		if (__webpack_require__.nc) {
+/******/ 			script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 		}
+/******/ 		script.src = __webpack_require__.p + "" + chunkId + "." + {"0":"02d2934bfacbfadd2621","1":"a3f91856f900dda82d63"}[chunkId] + ".js";
+/******/ 		var timeout = setTimeout(onScriptComplete, 120000);
+/******/ 		script.onerror = script.onload = onScriptComplete;
+/******/ 		function onScriptComplete() {
+/******/ 			// avoid mem leaks in IE.
+/******/ 			script.onerror = script.onload = null;
+/******/ 			clearTimeout(timeout);
+/******/ 			var chunk = installedChunks[chunkId];
+/******/ 			if(chunk !== 0) {
+/******/ 				if(chunk) {
+/******/ 					chunk[1](new Error('Loading chunk ' + chunkId + ' failed.'));
+/******/ 				}
+/******/ 				installedChunks[chunkId] = undefined;
+/******/ 			}
+/******/ 		};
+/******/ 		head.appendChild(script);
+/******/
+/******/ 		return promise;
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -59,8 +143,11 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17156,72 +17243,7 @@
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)(module)))
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-
-
-// if(process.env.NODE_ENV != 'production'){
-//   console.log('looks like we are in development mode!');
-// }
-
-function getComponent() {
- //  var element = document.createElement('pre');
- //  // var btn = document.createElement('button');
- //
- //  // Lodash（目前通过一个 script 脚本引入）对于执行这一行是必需的
- //  // lodash, now imported by this script
- //  element.innerHTML = [
- //    'Hello webpack!',
- //    '5 cubed is equal to '+ cube(5)
- //  ].join('\n\n');
- //  // btn.innerHTML = 'Click me and check the console!';
- //  // btn.onclick = printMe;
- //  // element.appendChild(btn);
- //
- //  // element.classList.add('hello');
- //
- // // var myIcon = new Image();
- // // myIcon.src = Icon;
- //
- //  //element.appendChild(myIcon);
- //
-	// return element;
-	//
-  return new Promise(function(resolve) { resolve(); }).then(__webpack_require__.bind(null, 0)).then(_ => {
-     var element = document.createElement('div');
-
-     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-     return element;
-
-   }).catch(error => 'An error occurred while loading the component');
-
-}
-getComponent().then(component => {
-   document.body.appendChild(component);
-})
-// document.body.appendChild(component());
-// let element =component();
-// document.body.appendChild(element);
-
-// if(module.hot){
-// 	module.hot.accept('./print.js', function(){
-// 		console.log('Accepting the updated printMe module!');
-// 		// printMe();
-// 		document.body.removeChild(element);
-//     element = component();
-//     document.body.appendChild(element);
-//
-// 	});
-// }
-
-
-/***/ }),
+/* 1 */,
 /* 2 */
 /***/ (function(module, exports) {
 
@@ -17274,6 +17296,13 @@ module.exports = function(module) {
 	}
 	return module;
 };
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(0);
 
 
 /***/ })

@@ -1,4 +1,13 @@
-import _ from "lodash";
+webpackJsonp([1],[
+/* 0 */,
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+
 // xdsafdsfsdffdsfdssfdsd
 // if(process.env.NODE_ENV != 'production'){
 //   console.log('looks like we are in development mode!');
@@ -9,13 +18,13 @@ function component() {
   var br = document.createElement('br');
 
   button.innerHTML = 'Click me and look at the console!'
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.join(['Hello', 'webpack'], ' ');
   element.appendChild(br);
   element.appendChild(button);
 
   // Note that because a network request is involved, some indication
   // of loading would need to be shown in a production-level site/app.
-  button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+  button.onclick = e => __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 5)).then(module => {
     var print = module.default;
     print();
   });
@@ -84,3 +93,7 @@ document.body.appendChild(component());
 //
 // 	});
 // }
+
+
+/***/ })
+],[1]);
